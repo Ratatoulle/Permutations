@@ -2,50 +2,49 @@
 
 using namespace std;
 
-void swap(int* a, int i, int j)
+void swap(int P[], int i, int j)
 {
-	int s = a[i];
-	a[i] = a[j];
-	a[j] = s;
+	int s = P[i];
+	P[i] = P[j];
+	P[j] = s;
 }
 
-bool NextSet(int* a, int n)
+bool nextPermutation(int P[], int n)
 {
 	int j = n - 2;
-	while (j != -1 && a[j] >= a[j + 1])
+	while (j != -1 && P[j] >= P[j + 1])
 		j--;
 	if (j == -1)
-		return false; // больше перестановок нет
+		return false; // no more permutations
 	int k = n - 1;
-	while (a[j] >= a[k])
+	while (P[j] >= P[k])
 		k--;
-	swap(a, j, k);
-	int l = j + 1, r = n - 1; // сортируем оставшуюся часть последовательности
+	swap(P, j, k);
+	int l = j + 1, r = n - 1;
 	while (l < r)
-		swap(a, l++, r--);
+		swap(P, l++, r--);
 	return true;
 }
 
-void Print(int a[], int n)  // вывод перестановки
+void printPermutation(int P[], int n) 
 {
-	static int num = 1; // номер перестановки
-	cout.width(3); // ширина поля вывода номера перестановки
-	cout << num++ << ": ";
+	static int permutationNumber = 1;
+	cout.width(3);
+	cout << permutationNumber++ << ": ";
 	for (int i = 0; i < n; i++)
-		cout << a[i] << " ";
+		cout << P[i] << " ";
 	cout << endl;
 }
 
 int main()
 {
-	int n, *A;
-	cout << "Enter the number of permutations: ";
-	cin >> n;
-	A = new int[n];
-	for (int i = 0; i < n; i++) // print first permutation
-		A[i] = i + 1;
-	Print(A, n);
-	while (NextSet(A, n))
-		Print(A, n);
+	int *P = new int[3];
+	cout << "Enter 3 numbers you want to permute: ";
+	cin >> P[0] >> P[1] >> P[2];
+	printPermutation(P, 3);
+	while (nextPermutation(P, 3))
+		printPermutation(P, 3);
+	delete[] P;
+	system("pause");
 	return 0;
 }
